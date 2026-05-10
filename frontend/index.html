@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gelato Lab Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-item active" title="Assistant">
+            <i data-lucide="message-square"></i>
+        </div>
+        <div class="sidebar-item" title="Kanban">
+            <i data-lucide="layout-dashboard"></i>
+        </div>
+        <div class="sidebar-item" title="Inventory">
+            <i data-lucide="beaker"></i>
+        </div>
+        <div style="margin-top: auto;" class="sidebar-item" title="Settings">
+            <i data-lucide="settings"></i>
+        </div>
+    </div>
+
+    <main class="main-layout">
+        <!-- Assistant Section -->
+        <section class="chat-container">
+            <div class="chat-header">
+                <div class="glow-avatar"></div>
+                <div>
+                    <h2 style="font-size: 16px;">Gelato Assistant</h2>
+                    <p style="font-size: 12px; color: var(--text-muted);">Creative Brain AI</p>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message ai">
+                    Ciao Chef! Quale concept di gusto vogliamo esplorare oggi? Posso aiutarti a trovare le paste e variegature migliori dai nostri 1.100+ ingredienti.
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Es: Infusione di rosa e alloro, rosolio, miele...">
+                <button id="send-btn" style="background: var(--accent-glow); border: none; border-radius: 12px; width: 45px; cursor: pointer; color: white;">
+                    <i data-lucide="send"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Kanban Section -->
+        <section class="kanban-container">
+            <div class="kanban-header">
+                <h1>Production Pipeline</h1>
+                <div style="display: flex; gap: 10px;">
+                    <button id="add-card" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: white; padding: 8px 16px; border-radius: 10px; cursor: pointer; font-size: 14px;">
+                        + Nuovo Gusto
+                    </button>
+                </div>
+            </div>
+
+            <div class="kanban-board">
+                <div class="kanban-column">
+                    <h3 class="column-title">💡 Ideazione</h3>
+                    <div id="col-ideation" class="column-content">
+                        <!-- Cards will be injected here -->
+                    </div>
+                </div>
+                <div class="kanban-column">
+                    <h3 class="column-title">🧪 Sperimentazione</h3>
+                    <div id="col-testing" class="column-content"></div>
+                </div>
+                <div class="kanban-column">
+                    <h3 class="column-title">✅ Produzione</h3>
+                    <div id="col-production" class="column-content"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="main.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
