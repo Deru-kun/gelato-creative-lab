@@ -1,14 +1,15 @@
 const express = require('express');
 const { Client } = require('pg');
 const cors = require('cors');
-require('dotenv').config({ path: '../.env' });
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: '../.env' });
+}
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname)); // Serve frontend files
 
 const client = new Client({
   connectionString: process.env.DB_URL,
@@ -84,6 +85,10 @@ app.post('/api/match-concept', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
+}
+
+module.exports = app;
