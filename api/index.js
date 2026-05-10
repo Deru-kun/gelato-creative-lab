@@ -21,7 +21,7 @@ const client = new Client({
 client.connect();
 
 // Basic search endpoint
-app.get('/api/search', async (req, res) => {
+app.get(['/api/search', '/search'], async (req, res) => {
   const { q } = req.query;
   if (!q) return res.json([]);
 
@@ -45,7 +45,7 @@ app.get('/api/search', async (req, res) => {
 });
 
 // Advanced concept matching
-app.post('/api/match-concept', async (req, res) => {
+app.post(['/api/match-concept', '/match-concept'], async (req, res) => {
   const { concept } = req.body;
   // This would ideally use an LLM, but we'll use a keyword-based matcher for now
   const keywords = concept.toLowerCase().split(/[ ,]+/).filter(w => w.length > 2);
