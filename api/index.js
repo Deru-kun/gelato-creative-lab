@@ -1,5 +1,5 @@
 const express = require('express');
-const { Client } = require('pg');
+const { Pool } = require('pg');
 const cors = require('cors');
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({ path: '../.env' });
@@ -11,14 +11,15 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-const client = new Client({
+const pool = new Pool({
   connectionString: process.env.DB_URL,
   ssl: {
     rejectUnauthorized: false
-  }
+  },
+  max: 1, // Limita a 1 per funzione serverless (evita esaurimento connessioni)
+  idleTimeoutMillis: 3000,
+  connectionTimeoutMillis: 2000,
 });
-
-client.connect();
 
 // Basic search endpoint
 app.get(['/api/search', '/search'], async (req, res) => {
@@ -36,7 +37,7 @@ app.get(['/api/search', '/search'], async (req, res) => {
       WHERE p.name ILIKE $1 OR p.description ILIKE $1
       LIMIT 10
     `;
-    const result = await client.query(query, [`%${q}%`]);
+    const result = await pool.query(query, [`%${q}%`]);
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -66,7 +67,7 @@ app.post(['/api/match-concept', '/match-concept'], async (req, res) => {
         WHERE (p.name ILIKE $1 OR p.description ILIKE $1)
         LIMIT 3
       `;
-      const resMatch = await client.query(query, [`%${word}%`]);
+      const resMatch = await pool.query(query, [`%${word}%`]);
       
       for (const row of resMatch.rows) {
         if (row.category_slug === 'paste') results.paste.push(row);
