@@ -41,7 +41,7 @@ app.get(['/api/search', '/search'], async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: err.message || 'Internal server error' });
   }
 });
 
@@ -85,7 +85,7 @@ app.post(['/api/match-concept', '/match-concept'], async (req, res) => {
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: err.message || 'Internal server error' });
   }
 });
 

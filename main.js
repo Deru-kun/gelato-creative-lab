@@ -31,6 +31,11 @@ async function sendMessage() {
         });
         const data = await response.json();
 
+        if (data.error) {
+            updateAiMessage(aiMsgId, `Scusa Chef, il database mi risponde con questo errore esatto: <b>${data.error}</b>`);
+            return;
+        }
+
         updateAiMessage(aiMsgId, formatAiResponse(text, data));
         
         // Automatically create a card in the Kanban
@@ -38,7 +43,7 @@ async function sendMessage() {
 
     } catch (err) {
         console.error(err);
-        updateAiMessage(aiMsgId, "Scusa Chef, ho avuto un problema nel collegarmi al database. Verifica che il server sia attivo.");
+        updateAiMessage(aiMsgId, "Scusa Chef, errore di rete o server irraggiungibile. Verifica che il server sia attivo.");
     }
 }
 
